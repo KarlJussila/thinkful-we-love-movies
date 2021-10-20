@@ -13,9 +13,7 @@ exports.up = function (knex) {
       CREATE TABLE movies_theaters (
           "theater_id" INTEGER REFERENCES theaters(theater_id),
           "movie_id" INTEGER REFERENCES movies(movie_id),
-          "is_showing" boolean,
-          "created_at" timestamptz not null default CURRENT_TIMESTAMP,
-          "updated_at" timestamptz not null default CURRENT_TIMESTAMP
+          "is_showing" boolean
       );
   `)
   return newTable;

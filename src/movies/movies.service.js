@@ -1,32 +1,36 @@
 const knex = require("../db/connection");
 
-function read(movieId) {
-    return knex("movies").select("*").where({ movie_id: movieId }).first();
+async function read(movieId) {
+    const data = await knex("movies").select("*").where({ movie_id: movieId }).first();
+    console.log(data);
+    return data;
 }
 
-function list() {
+async function list(req, res) {
     if (req.query.is_showing === "true") {
         return knex("movies as m")
             .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
             .select("m.*")
             .where({ is_showing: true });
     }
-    return knex("movies").select("*");
+    const data = await knex("movies").select("*");
+    return data;
 }
 
 function getTheaters(movieId) {
     return knex("movies as m")
         .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
         .join("theaters as t", "mt.theater_id", "t.theater_id")
-        .select("t.*", "movie_id")
-        .where({ is_showing: true });
+        .select("t.*", "mt.movie_id")
+        .where({ "is_showing": true, "m.movie_id": movieId });
 }
 
 async function getReviews(movieId) {
     const reviews = await knex("movies as m")
         .join("reviews as r", "r.movie_id", "m.movie_id")
         .join("critics as c", "c.critic_id", "r.critic_id")
-        .select("r.*");
+        .select("r.*")
+        .where({"r.movie_id": movieId});
 
     return reviews.map((review) => {
         const {

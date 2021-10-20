@@ -12,12 +12,12 @@ async function reviewExists(req, res, next) {
 }
 
 async function update(req, res) {
-  res.json({ data: await service.update(req.body.data) });
+  res.json({ data: await service.update(req.body) });
 }
 
 function destroy(req, res, next) {
-  const { postId } = req.params;
-  service.delete(postId)
+  const { reviewId } = req.params;
+  service.delete(reviewId)
   .then(res.sendStatus(204))
   .catch(next);
 }

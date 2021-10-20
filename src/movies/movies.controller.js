@@ -13,21 +13,23 @@ async function movieExists(req, res, next) {
 }
 
 async function read(req, res, next) {
-    return { data: await res.locals.movie };
+    res.json({ data: await res.locals.movie });
 }
 
 async function list(req, res, next) {
-    return { data: await service.list() }
+    res.json({ data: await service.list(req, res) });
 }
 
 async function getTheaters(req, res, next) {
     const { movieId } = req.params;
-    return { data: service.getTheaters(movieId) }
+    const data = await service.getTheaters(movieId);
+    console.log(data);
+    res.json({ data });
 }
 
 async function getReviews(req, res, next) {
     const { movieId } = req.params;
-    return { data: service.getReviews(movieId) }
+    res.json({ data: await service.getReviews(movieId) });
 }
 
 module.exports = {

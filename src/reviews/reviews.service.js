@@ -18,6 +18,7 @@ function destroy(reviewId) {
 }
 
 module.exports = {
+    read,
     update,
     delete: destroy,
 };
