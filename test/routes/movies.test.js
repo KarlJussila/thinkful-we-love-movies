@@ -5,18 +5,18 @@ const db = require("../../src/db/connection");
 
 describe("Movie Routes", () => {
   beforeAll(() => {
-    // return db.migrate
-    //   .forceFreeMigrationsLock()
-    //   .then(() => db.migrate.rollback(null, true))
-    //   .then(() => db.migrate.latest());
+    return db.migrate
+      .forceFreeMigrationsLock()
+      .then(() => db.migrate.rollback(null, true))
+      .then(() => db.migrate.latest());
   });
 
   beforeEach(() => {
-    // return db.seed.run();
+    return db.seed.run();
   });
 
   afterAll(async () => {
-    // return await db.migrate.rollback(null, true).then(() => db.destroy());
+    return await db.migrate.rollback(null, true).then(() => db.destroy());
   });
 
   describe("GET /movies", () => {
